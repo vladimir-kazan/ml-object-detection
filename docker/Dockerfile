@@ -28,20 +28,27 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
 
 RUN conda update -y conda
-RUN conda create -y -n py36 python=3.6
+RUN conda create -y -n py35 python=3.5
 
-RUN echo "source activate py36" >> ~/.bashrc
-RUN bash -c "source activate py36 && conda install -y tensorflow jupyter notebook"
-RUN bash -c "source activate py36 && conda install -y matplotlib notebook"
-RUN bash -c "source activate py36 && conda install -y pillow lxml"
-#  google repo
-RUN cd /home && git clone https://github.com/tensorflow/models.git
-RUN bash -c "source activate py36 && cd /home/models/research && protoc object_detection/protos/*.proto --python_out=."
-RUN echo "export PYTHONPATH=/home/models/research:/home/models/research/slim" >> ~/.bashrc
+
+# tensorflow
+RUN echo "source activate py35" >> ~/.bashrc
+RUN bash -c "source activate py35 && pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.4.0-cp35-cp35m-linux_x86_64.whl"
+# RUN bash -c "source activate py35 && conda install -y -c conda-forge tensorflow"
+RUN bash -c "source activate py35 && conda install -y matplotlib jupyter notebook pillow protobuf lxml"
+
+# google repo
+# RUN cd /home && git clone https://github.com/tensorflow/models.git
+# RUN bash -c "source activate py35 && cd /home/models/research && protoc object_detection/protos/*.proto --python_out=."
+# RUN echo "export PYTHONPATH=/home/models/research:/home/models/research/slim" >> ~/.bashrc
 
 # TODO: remove it after adding compilation
 # RUN echo "export TF_CPP_MIN_LOG_LEVEL=2" >> ~/.bashrc
 ENV TF_CPP_MIN_LOG_LEVEL 2
+
+RUN bash -c "source activate py35 && conda install -y flask"
+ENV LC_ALL C.UTF-8
+ENV LANG C.UTF-8
 
 ADD ./object-recognition-start /usr/bin/
 RUN chmod +x /usr/bin/object-recognition-start
