@@ -3,3 +3,4 @@ src/datasets
 !/src/datasets/data
 .ipynb_checkpoints
 .DS_Store
+src/uploads

@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       git \
       openssh-client \
       vim \
+      zsh \
       && \
       apt-get autoclean && \
       rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
