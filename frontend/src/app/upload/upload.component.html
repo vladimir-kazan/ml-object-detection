@@ -1,0 +1,18 @@
+<div class="upload">
+  <div class="file-chooser">
+    <input type="file" #myFile
+      id="file"
+      name="file"
+      accept="image/jpeg, image/png"
+      [hidden]="true"
+      (change)="onFileChange($event)"
+    >
+    <label for="file"><strong>{{filename}}</strong></label>
+  </div>
+  <div class="image">
+    <img [src]="image" />
+  </div>
+  <!-- <div class="image">
+    <canvas #myCanvas></canvas>
+  </div> -->
+</div>

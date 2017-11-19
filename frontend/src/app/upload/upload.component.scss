@@ -1,0 +1,23 @@
+.image {
+    margin: 0 auto;
+    padding: 10px 0;
+    text-align: center;
+
+    img {
+        max-width: 100%;
+    }
+
+    canvas {
+        width: 100%;
+    }
+}
+
+.file-chooser {
+    border: 1px dotted #ccc;
+    color: green;
+    padding: 20px;
+    text-align: center;
+    label:hover {
+        cursor: pointer;
+    }
+}

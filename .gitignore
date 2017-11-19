@@ -1,6 +1,7 @@
 __pycache__
-src/datasets
-!/src/datasets/data
+server/datasets
+server/uploads
+!server/datasets/data
+
 .ipynb_checkpoints
 .DS_Store
-src/uploads

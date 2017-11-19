@@ -17,8 +17,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       openssh-client \
       vim \
       zsh \
+      gnupg \
       && \
       apt-get autoclean && \
+      rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
+
+# nodejs for angular app
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      nodejs \
+      && apt-get autoclean && \
       rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
 
 # for conda and python
@@ -47,7 +55,7 @@ RUN bash -c "source activate py35 && conda install -y matplotlib jupyter noteboo
 # RUN echo "export TF_CPP_MIN_LOG_LEVEL=2" >> ~/.bashrc
 ENV TF_CPP_MIN_LOG_LEVEL 2
 
-RUN bash -c "source activate py35 && conda install -y flask"
+RUN bash -c "source activate py35 && conda install -y flask && pip install flask_cors"
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 
