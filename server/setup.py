@@ -36,7 +36,7 @@ def download_and_extact():
 
     assert os.path.isfile(CKPT_FULL_PATH)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print('setup.py is started')
     download_and_extact()
     print('setup.py is finished')

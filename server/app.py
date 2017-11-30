@@ -3,15 +3,16 @@ Object recognition module
 '''
 
 import os
-from flask import Flask, request, redirect, url_for, make_response, jsonify
+from flask import Flask, render_template, request, redirect, url_for, make_response, jsonify
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
 
 # local imports
-from recognition import recognize_image
+from recognition import recognize_image, LABELS
 
 # UPLOAD_FOLDER = os.path.join(os.getcwd(), 'src/uploads')
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'uploads')
+STATIC_FOLDER = os.path.join(os.path.dirname(__file__), '../frontend/src')
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 APP = Flask(__name__)
 CORS(APP)
@@ -30,16 +31,11 @@ def index():
     Entry point
     '''
     # response = flask.jsonify({ 'some': 'data' })
-    # response.headers.add('Access-Control-Allow-Origin', '*')
-    # return response
     response = make_response('Hello world!')
     response.headers['Access-Control-Allow-Origin'] = '*'
+    print(LABELS)
     return response
-# {
-#         response = 'Hello world!',
-#         status = 200,
-#         mimetype = 'application/json'
-#     }
+
 
 @APP.route('/upload', methods=['POST'])
 def upload_file():
@@ -64,3 +60,6 @@ def upload_file():
     response.headers['Access-Control-Allow-Origin'] = '*'
     response.headers['Content-Type'] = 'application/json'
     return response
+
+
+print('app.py: ' + __name__)

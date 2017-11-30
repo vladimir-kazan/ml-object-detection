@@ -16,8 +16,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       git \
       openssh-client \
       vim \
-      zsh \
       gnupg \
+      nginx \
+      ufw \
       && \
       apt-get autoclean && \
       rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
@@ -37,14 +38,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       rm -rf /var/lib/apt/lists/* /var/log/dpkg.log
 
 RUN conda update -y conda
-RUN conda create -y -n py35 python=3.5
+ADD ./env.yml /home/env.yml
+RUN conda env create -f /home/env.yml
 
 
-# tensorflow
+# python
 RUN echo "source activate py35" >> ~/.bashrc
-RUN bash -c "source activate py35 && pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.4.0-cp35-cp35m-linux_x86_64.whl"
-# RUN bash -c "source activate py35 && conda install -y -c conda-forge tensorflow"
-RUN bash -c "source activate py35 && conda install -y matplotlib jupyter notebook pillow protobuf lxml"
+
+
+# RUN conda create -y -n py35 python=3.5
+# RUN bash -c "source activate py35 && pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.4.0-cp35-cp35m-linux_x86_64.whl"
+# RUN bash -c "source activate py35 && pip install matplotlib jupyter notebook pillow protobuf lxml"
+# RUN bash -c "source activate py35 && pip install flask flask_cors"
 
 # google repo
 # RUN cd /home && git clone https://github.com/tensorflow/models.git
@@ -55,12 +60,18 @@ RUN bash -c "source activate py35 && conda install -y matplotlib jupyter noteboo
 # RUN echo "export TF_CPP_MIN_LOG_LEVEL=2" >> ~/.bashrc
 ENV TF_CPP_MIN_LOG_LEVEL 2
 
-RUN bash -c "source activate py35 && conda install -y flask && pip install flask_cors"
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 
 ADD ./object-recognition-start /usr/bin/
 RUN chmod +x /usr/bin/object-recognition-start
+
+# jupter notebook
+EXPOSE 8888
+# ng serve - angular 5
+EXPOSE 4200
+# Flask API
+EXPOSE 5000
 
 ENTRYPOINT ["/usr/bin/object-recognition-start"]
 
